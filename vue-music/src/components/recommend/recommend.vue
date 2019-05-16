@@ -1,6 +1,6 @@
 <template>
    <div class="recommend" ref="recommend">
-     <scroll class="recommend-content" :data="songList">
+     <scroll ref="scroll" class="recommend-content" :data="songList">
        <div>
          <div v-if="recommends.length" class="slider-wrapper">
            <slider>
@@ -14,13 +14,13 @@
          <div class="recommend-list">
            <h1 class="list-title">热门歌单推荐</h1>
            <ul>
-             <li v-for="item in songList" class="item" :key="item.id">
+             <li @click="selectItem(item)" v-for="item in songList" class="item" :key="item.id">
                <div class="icon">
-                 <img width="60" height="60" v-lazy="item.picUrl">
+                 <img width="60" height="60" v-lazy="item.imgurl">
                </div>
                <div class="text">
-                 <h2 class="name" v-html="item.songListDesc"></h2>
-                 <p class="desc" v-html="item.songListAuthor"></p>
+                 <h2 class="name" v-html="item.dissname"></h2>
+                 <p class="desc" v-html="item.creator.name"></p>
                </div>
              </li>
            </ul>
@@ -30,16 +30,20 @@
          <loading></loading>
        </div>
      </scroll>
+     <router-view></router-view>
    </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {getRecommend} from '../../api/recommend'
+import {getRecommend, getSongList} from '../../api/recommend'
 import Slider from '../../base/slider/slider'
 import Scroll from '../../base/scroll/scroll'
 import Loading from '../../base/loading/loading'
+import {playlistMixin} from '../../common/js/mixin'
+import {mapMutations} from 'vuex'
 
 export default {
+  mixins: [playlistMixin],
   name: 'recommend',
   components: {
     Slider,
@@ -54,17 +58,39 @@ export default {
   },
   created () {
     this._getRecommend()
+    this._getSongList()
   },
   methods: {
+    handlePlaylist(playlist) {
+      const bottom = playlist.length > 0 ? '60px' : ''
+      this.$refs.recommend.style.bottom = bottom
+      this.$refs.scroll.refresh()
+    },
+    selectItem(item) {
+      this.$router.push({
+        path: `/recommend/${item.dissid}`
+      })
+      this.setDisc(item)
+    },
     _getRecommend() {
       getRecommend().then((res) => {
         if (res.code === 0) {
-          // console.log(res.data.slider)
           this.recommends = res.data.slider
-          this.songList = res.data.songList
         }
       })
-    }
+    },
+    _getSongList() {
+      getSongList().then((res) => {
+        if (res.code === 0) {
+          this.songList = res.data.list
+        }
+      })
+    },
+    ...mapMutations(
+      {
+        setDisc: 'SET_DISC'
+      }
+    )
   }
 }
 </script>

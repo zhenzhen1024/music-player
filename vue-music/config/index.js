@@ -30,6 +30,87 @@ module.exports = {
         pathRewrite: {
           '^/api/getSingerList': ''
         }
+      },
+      '/api/getSingerDetail': {
+        target: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://u.y.qq.com';
+          req.headers.host = 'u.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getSingerDetail': ''
+        }
+      },
+      '/api/getSongList': {
+        target: 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg',
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://u.y.qq.com';
+          req.headers.host = 'u.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getSongList': ''
+        }
+      },
+      '/api/getLyric': {
+        target: 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg',
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://u.y.qq.com';
+          req.headers.host = 'u.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getLyric': ''
+        }
+      },
+      '/api/getHotKey': {
+        target: 'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg',
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://u.y.qq.com';
+          req.headers.host = 'u.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getHotKey': ''
+        }
+      },
+      '/api/search': {
+        target: 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://u.y.qq.com';
+          req.headers.host = 'u.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/search': ''
+        }
+      },
+      '/api/getMusicList': {
+        target: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://u.y.qq.com';
+          req.headers.host = 'u.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getMusicList': ''
+        }
+      },
+      '/api/getTopList': {
+        target: 'https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg',
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://c.y.qq.com';
+          req.headers.host = 'c.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getTopList': ''
+        }
+      },
+      '/api/getDisc': {
+        target: 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg',
+        secure: false,
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://c.y.qq.com';
+          req.headers.host = 'c.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getDisc': ''
+        }
       }
     },
 
